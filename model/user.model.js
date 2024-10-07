@@ -32,4 +32,13 @@ const userSchema = new mongoose.Schema({
     timestamps: true,  // Automatically adds createdAt and updatedAt fields
 });
 
+  userSchema.pre('save',async function(next){
+            if(!this.isModified('password'))  return next();    // checks the password is modified or not for each signup/login and allow for changed password only
+            const getsalt = await bcrypt.genSalt(10);
+            const hashedPassword = await bcrypt.hash(this.password,getsalt);
+            this.password = hashedPassword
+            return next();
+            
+        });
+
 export default mongoose.model('User', userSchema);
