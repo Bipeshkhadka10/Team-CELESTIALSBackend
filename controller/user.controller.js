@@ -24,8 +24,8 @@ export const signup = async (req, res) => {
         if (existingUser) {
             return res.status(400).json({ message: "User already exists with this email or registration number" });
         }
-
-        const hashPassword = await bcryptjs.hash(password, 10);
+      
+        
 
         const createdUser = new User({
             fullname,
